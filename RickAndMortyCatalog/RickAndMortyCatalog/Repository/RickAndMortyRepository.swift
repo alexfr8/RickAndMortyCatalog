@@ -3,6 +3,7 @@ import Networking
 
 protocol RickAndMortyRepositoryProtocol: Sendable {
     func getCharactersNextPage() async throws -> [DomainCharacter]
+    func getAllCachedCharacters() async -> [DomainCharacter]
 }
 
 final class RickAndMortyRepository: RickAndMortyRepositoryProtocol {
@@ -29,6 +30,10 @@ final class RickAndMortyRepository: RickAndMortyRepositoryProtocol {
         } else {
             return []
         }
+    }
+
+    func getAllCachedCharacters() async -> [DomainCharacter] {
+        return await cache.getAllAvailableCharacters()
     }
 
     // MARK: - Private Methods

@@ -166,6 +166,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				C17A27E22DCE51F5009C9835 /* XCRemoteSwiftPackageReference "SwiftLint" */,
+				C17A28012DCE5CCC009C9835 /* XCLocalSwiftPackageReference "Networking" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C17A27B52DCE4EB3009C9835 /* Products */;
@@ -475,6 +476,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		C17A28012DCE5CCC009C9835 /* XCLocalSwiftPackageReference "Networking" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Networking;
+		};
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
 		C17A27E22DCE51F5009C9835 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {

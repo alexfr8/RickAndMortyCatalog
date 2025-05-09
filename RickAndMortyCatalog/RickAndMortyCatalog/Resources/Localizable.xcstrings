@@ -108,7 +108,14 @@
       }
     },
     "error_suggestion_unknown" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please review your internet connection or try again later"
+          }
+        }
+      }
     },
     "Search" : {
 

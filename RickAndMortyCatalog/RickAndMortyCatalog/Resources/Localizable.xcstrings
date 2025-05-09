@@ -22,7 +22,14 @@
       }
     },
     "characters_title" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Character list"
+          }
+        }
+      }
     },
     "Detail" : {
 
@@ -117,8 +124,66 @@
         }
       }
     },
-    "Search" : {
-
+    "search_include_your_text_here" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type your search"
+          }
+        }
+      }
+    },
+    "search_more_than_three_characters" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please type 3 or more characters"
+          }
+        }
+      }
+    },
+    "search_not_found_text'%@'" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search not found with: %@"
+          }
+        }
+      }
+    },
+    "search_screen_placeholder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your search"
+          }
+        }
+      }
+    },
+    "search_screen_title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
+          }
+        }
+      }
+    },
+    "search_title" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

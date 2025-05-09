@@ -3,6 +3,7 @@ import Network
 
 public protocol RickAndMortyServiceProtocol: Sendable {
     func fetchCharacters(page: Int) async throws -> DataCharacterResponse
+    func searchCharacter(name: String) async throws -> DataCharacterResponse
 }
 
 public final class RickAndMortyService: RickAndMortyServiceProtocol {
@@ -46,10 +47,28 @@ public final class RickAndMortyService: RickAndMortyServiceProtocol {
             throw RickAndMortyServiceError.unknown
         }
     }
+
+    public func searchCharacter(name: String) async throws -> DataCharacterResponse {
+        try await checkConnectivity()
+
+        do {
+            let route = RickAndMortyRoutes.searchCharacter(query: name)
+            let data = try await networkManager.performRequest(with: route)
+            let parsedData: DataCharacterResponse = try JSONDecoder().decode(DataCharacterResponse.self, from: data)
+            return parsedData
+        } catch _ as DecodingError {
+            throw RickAndMortyServiceError.decodingError
+        } catch NetworkError.server {
+            throw RickAndMortyServiceError.serverError
+        } catch {
+            throw RickAndMortyServiceError.unknown
+        }
+    }
 }
 
 private enum RickAndMortyRoutes: NetworkRoute {
     case fetchCharacters(page: Int)
+    case searchCharacter(query: String)
 
     var baseUrl: String {
         "https://rickandmortyapi.com/api"
@@ -57,7 +76,7 @@ private enum RickAndMortyRoutes: NetworkRoute {
 
     var path: String {
         switch self {
-            case .fetchCharacters:
+            case .fetchCharacters, .searchCharacter:
                 "/api/character"
         }
     }
@@ -66,6 +85,8 @@ private enum RickAndMortyRoutes: NetworkRoute {
         switch self {
             case .fetchCharacters(page: let page):
                 return ["page": page]
+            case .searchCharacter(query: let query):
+                return ["name": query]
             default:
                 return [:]
         }

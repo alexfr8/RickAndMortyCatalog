@@ -4,6 +4,7 @@ import Networking
 protocol RickAndMortyRepositoryProtocol: Sendable {
     func getCharactersNextPage() async throws -> [DomainCharacter]
     func getAllCachedCharacters() async -> [DomainCharacter]
+    func searchCharacters(query: String) async throws -> [DomainCharacter]
 }
 
 final class RickAndMortyRepository: RickAndMortyRepositoryProtocol {
@@ -29,6 +30,16 @@ final class RickAndMortyRepository: RickAndMortyRepositoryProtocol {
             }
         } else {
             return []
+        }
+    }
+
+    func searchCharacters(query: String) async throws -> [DomainCharacter] {
+        do {
+            let searchResult = try await service.searchCharacter(name: query)
+            let characterDomain = searchResult.toDomain()
+            return characterDomain.results
+        } catch let error as RickAndMortyServiceError {
+            throw mapServiceError(error)
         }
     }
 

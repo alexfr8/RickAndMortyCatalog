@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C17A27E92DCE535E009C9835 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = C17A27E82DCE535E009C9835 /* Networking */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		C17A27C52DCE4EB6009C9835 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -19,6 +23,7 @@
 /* Begin PBXFileReference section */
 		C17A27B42DCE4EB3009C9835 /* RickAndMortyCatalog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RickAndMortyCatalog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C17A27C42DCE4EB6009C9835 /* RickAndMortyCatalogTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RickAndMortyCatalogTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C17A27E12DCE502C009C9835 /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Networking; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -39,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C17A27E92DCE535E009C9835 /* Networking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,8 +61,10 @@
 		C17A27AB2DCE4EB3009C9835 = {
 			isa = PBXGroup;
 			children = (
+				C17A27E12DCE502C009C9835 /* Networking */,
 				C17A27B62DCE4EB3009C9835 /* RickAndMortyCatalog */,
 				C17A27C72DCE4EB6009C9835 /* RickAndMortyCatalogTests */,
+				C17A27E72DCE535E009C9835 /* Frameworks */,
 				C17A27B52DCE4EB3009C9835 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -68,6 +76,13 @@
 				C17A27C42DCE4EB6009C9835 /* RickAndMortyCatalogTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C17A27E72DCE535E009C9835 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -84,12 +99,14 @@
 			buildRules = (
 			);
 			dependencies = (
+				C17A27E42DCE5207009C9835 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				C17A27B62DCE4EB3009C9835 /* RickAndMortyCatalog */,
 			);
 			name = RickAndMortyCatalog;
 			packageProductDependencies = (
+				C17A27E82DCE535E009C9835 /* Networking */,
 			);
 			productName = RickAndMortyCatalog;
 			productReference = C17A27B42DCE4EB3009C9835 /* RickAndMortyCatalog.app */;
@@ -106,6 +123,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C17A27E62DCE520F009C9835 /* PBXTargetDependency */,
 				C17A27C62DCE4EB6009C9835 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
@@ -146,6 +164,9 @@
 			);
 			mainGroup = C17A27AB2DCE4EB3009C9835;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C17A27E22DCE51F5009C9835 /* XCRemoteSwiftPackageReference "SwiftLint" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C17A27B52DCE4EB3009C9835 /* Products */;
 			projectDirPath = "";
@@ -196,6 +217,14 @@
 			isa = PBXTargetDependency;
 			target = C17A27B32DCE4EB3009C9835 /* RickAndMortyCatalog */;
 			targetProxy = C17A27C52DCE4EB6009C9835 /* PBXContainerItemProxy */;
+		};
+		C17A27E42DCE5207009C9835 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = C17A27E32DCE5207009C9835 /* SwiftLintBuildToolPlugin */;
+		};
+		C17A27E62DCE520F009C9835 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = C17A27E52DCE520F009C9835 /* SwiftLintBuildToolPlugin */;
 		};
 /* End PBXTargetDependency section */
 
@@ -446,6 +475,34 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C17A27E22DCE51F5009C9835 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.59.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C17A27E32DCE5207009C9835 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C17A27E22DCE51F5009C9835 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+		C17A27E52DCE520F009C9835 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C17A27E22DCE51F5009C9835 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+		C17A27E82DCE535E009C9835 /* Networking */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Networking;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C17A27AC2DCE4EB3009C9835 /* Project object */;
 }

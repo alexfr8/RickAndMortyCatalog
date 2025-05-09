@@ -1,0 +1,118 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "alert_error_ok" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ok"
+          }
+        }
+      }
+    },
+    "alert_error_title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error"
+          }
+        }
+      }
+    },
+    "Character" : {
+
+    },
+    "Detail" : {
+
+    },
+    "error_description_reach" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No internet connection"
+          }
+        }
+      }
+    },
+    "error_description_server" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We have a problem with the server connection"
+          }
+        }
+      }
+    },
+    "error_description_unknown" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We have an unknown error"
+          }
+        }
+      }
+    },
+    "error_reason_reach" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No internet available"
+          }
+        }
+      }
+    },
+    "error_reason_server" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The reason can be bad data response or bad connection"
+          }
+        }
+      }
+    },
+    "error_reason_unknown" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The reason is unknown"
+          }
+        }
+      }
+    },
+    "error_suggestion_reach" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try to get connection"
+          }
+        }
+      }
+    },
+    "error_suggestion_server" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please review your internet connection or try again later"
+          }
+        }
+      }
+    },
+    "error_suggestion_unknown" : {
+
+    },
+    "Search" : {
+
+    }
+  },
+  "version" : "1.0"
+}

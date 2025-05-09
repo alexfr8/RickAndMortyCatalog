@@ -5,7 +5,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     let app: AppState
 
     override init() {
-        app = AppState(navigation: NavigationState())
+        app = AppState(
+            navigation: NavigationState(),
+            repository: RickAndMortyRepository(
+                service: RickAndMortyService()
+            )
+        )
         super.init()
     }
 

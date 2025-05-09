@@ -23,7 +23,7 @@ private struct SearchScreen: View {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Splash")
+            Text("Search")
         }
     }
 }

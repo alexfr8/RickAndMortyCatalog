@@ -21,7 +21,7 @@ private struct CharactersScreen: View {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Splash")
+            Text("Character")
         }
     }
 }

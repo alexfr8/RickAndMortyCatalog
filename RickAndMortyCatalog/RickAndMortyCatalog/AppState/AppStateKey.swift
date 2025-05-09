@@ -4,7 +4,8 @@ import SwiftUI
 
 struct AppStateKey: EnvironmentKey {
     static let defaultValue: AppStateProtocol = AppState(
-        navigation: NavigationState()
+        navigation: NavigationState(),
+        repository: RickAndMortyRepository(service: RickAndMortyService())
     )
 }
 

@@ -10,8 +10,8 @@ extension Screen: View {
             SplashScreenContainer()
         case .characters:
             CharactersScreenContainer()
-        case .details:
-            DetailssScreenContainer()
+        case .details(let character):
+            DetailssScreenContainer(character: character)
         case .search:
             SearchScreenContainer()
         }

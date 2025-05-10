@@ -23,7 +23,7 @@ private struct CharactersScreen: View {
                 List {
                     ForEach(viewModel.characters) { character in
                         CharacterRow(character: character) { tappedCharacter in
-                            app.navigation.push(to: .details)
+                            app.navigation.push(to: .details(character: tappedCharacter))
                         }
                         .onAppear {
                             let halfIndex = viewModel.characters.count / 2
@@ -47,7 +47,9 @@ private struct CharactersScreen: View {
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button {
-                            app.navigation.push(to: .search)
+                            app.navigation.present(to: .search) { character in
+                                app.navigation.push(to: .details(character: character))
+                            }
                         } label: {
                             Image(systemName: "magnifyingglass")
                                 .foregroundColor(.text)
@@ -67,8 +69,4 @@ private struct CharactersScreen: View {
             }
         }
     }
-}
-
-#Preview {
-    CharactersScreen(repository: MockRickAndMortyRepository())
 }

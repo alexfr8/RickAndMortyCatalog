@@ -4,7 +4,7 @@ enum Screen {
     case root
     case splash
     case characters
-    case details
+    case details(character: DomainCharacter)
     case search
 }
 

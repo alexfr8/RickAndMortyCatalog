@@ -5,6 +5,7 @@ protocol RickAndMortyRepositoryProtocol: Sendable {
     func getCharactersNextPage() async throws -> [DomainCharacter]
     func getAllCachedCharacters() async -> [DomainCharacter]
     func searchCharacters(query: String) async throws -> [DomainCharacter]
+    func searchBatchEpisodes(episodeList: String) async throws -> [DomainEpisodeDetail]
 }
 
 final class RickAndMortyRepository: RickAndMortyRepositoryProtocol {
@@ -33,6 +34,10 @@ final class RickAndMortyRepository: RickAndMortyRepositoryProtocol {
         }
     }
 
+    func getAllCachedCharacters() async -> [DomainCharacter] {
+        return await cache.getAllAvailableCharacters()
+    }
+
     func searchCharacters(query: String) async throws -> [DomainCharacter] {
         do {
             let searchResult = try await service.searchCharacter(name: query)
@@ -43,8 +48,14 @@ final class RickAndMortyRepository: RickAndMortyRepositoryProtocol {
         }
     }
 
-    func getAllCachedCharacters() async -> [DomainCharacter] {
-        return await cache.getAllAvailableCharacters()
+    func searchBatchEpisodes(episodeList: String) async throws -> [DomainEpisodeDetail] {
+        do {
+            let searchResult = try await service.searchBatchEpisodes(query: episodeList)
+            let characterDomain = searchResult.toDomain()
+            return characterDomain
+        } catch let error as RickAndMortyServiceError {
+            throw mapServiceError(error)
+        }
     }
 
     // MARK: - Private Methods

@@ -6,6 +6,7 @@ actor MockRickAndMortyRepository: RickAndMortyRepositoryProtocol {
     private var _getCharactersNextPageCalled = false
     private var _getAllCharactersCalled = false
     private var _searchCharacterCalled = false
+    private var _searchEpisodesCalled = false
 
     init(shouldSucceed: Bool = true) {
         self.shouldSucceed = shouldSucceed
@@ -40,9 +41,19 @@ actor MockRickAndMortyRepository: RickAndMortyRepositoryProtocol {
         }
     }
 
+    func searchBatchEpisodes(episodeList: String) async throws -> [DomainEpisodeDetail] {
+        _searchEpisodesCalled = true
+        if shouldSucceed {
+            return DomainEpisodeDetail.mockList()
+        } else {
+            throw URLError(.badServerResponse)
+        }
+    }
+
     // MARK: - Inspectors
 
     func wasGetCharactersNextPageCalled() -> Bool { _getCharactersNextPageCalled }
     func wasGetAllCharactersCalled() -> Bool { _getAllCharactersCalled }
     func wasSearchAllCharactersCalled() -> Bool { _searchCharacterCalled }
+    func wasSearchEpisodesCalled() -> Bool { _searchEpisodesCalled }
 }

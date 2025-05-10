@@ -1,0 +1,36 @@
+{
+  "configurations" : [
+    {
+      "id" : "F22D2EEE-034F-421B-AF09-5AEE194BB350",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:RickAndMortyCatalog.xcodeproj",
+      "identifier" : "C17A27B32DCE4EB3009C9835",
+      "name" : "RickAndMortyCatalog"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:RickAndMortyCatalog.xcodeproj",
+        "identifier" : "C17A27C32DCE4EB6009C9835",
+        "name" : "RickAndMortyCatalogTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:Networking",
+        "identifier" : "NetworkingTests",
+        "name" : "NetworkingTests"
+      }
+    }
+  ],
+  "version" : 1
+}

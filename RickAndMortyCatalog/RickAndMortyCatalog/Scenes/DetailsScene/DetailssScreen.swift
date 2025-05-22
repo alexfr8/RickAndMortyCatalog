@@ -17,7 +17,14 @@ struct DetailsScreen: View {
     @StateObject private var viewModel: DetailsScreenViewModel
 
     init(character: DomainCharacter, repository: RickAndMortyRepositoryProtocol) {
-        _viewModel = StateObject(wrappedValue: DetailsScreenViewModel(character: character, repository: repository))
+        _viewModel = StateObject(
+            wrappedValue: DetailsScreenViewModel(
+                character: character,
+                getEpisodesForCharacterUseCase: GetEpisodesForCharacterUseCase(
+                    repository: repository
+                )
+            )
+        )
     }
 
     var body: some View {

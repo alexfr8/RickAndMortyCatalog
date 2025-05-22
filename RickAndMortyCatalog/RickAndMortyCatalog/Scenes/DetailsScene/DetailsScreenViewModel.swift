@@ -8,27 +8,23 @@ final class DetailsScreenViewModel: ObservableObject {
     @Published var shouldNavigate = false
     @Published var episodes: [DomainEpisodeDetail] = []
 
-    private let repository: RickAndMortyRepositoryProtocol
+    private let getEpisodesForCharacterUseCase: GetEpisodesForCharacterUseCaseProtocol
     var character: DomainCharacter
 
-    init(character: DomainCharacter, repository: RickAndMortyRepositoryProtocol) {
+    init(
+        character: DomainCharacter,
+        getEpisodesForCharacterUseCase: GetEpisodesForCharacterUseCaseProtocol
+    ) {
         self.character = character
-        self.repository = repository
+        self.getEpisodesForCharacterUseCase = getEpisodesForCharacterUseCase
     }
 
     func getEpisodeInfo() async {
-        defer {
-            isLoading = false
-        }
+        isLoading = true
+        defer { isLoading = false }
         do {
-            let episodesList: [String] = character.episode.map { episodeUrl in
-                let url = URL(string: episodeUrl)
-                return url?.lastPathComponent ?? ""
-            }
-
-            let query = episodesList.joined(separator: ",")
-            isLoading = true
-            episodes = try await repository.searchBatchEpisodes(episodeList: query)
+            let useCase = await MainActor.run { self.getEpisodesForCharacterUseCase }
+            episodes = try await useCase.execute(for: character)
         } catch {
             self.error = error
         }

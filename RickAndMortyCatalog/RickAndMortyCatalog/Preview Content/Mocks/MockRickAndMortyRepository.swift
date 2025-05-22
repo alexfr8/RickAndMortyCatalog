@@ -16,6 +16,7 @@ actor MockRickAndMortyRepository: RickAndMortyRepositoryProtocol {
 
     func getCharactersNextPage() async throws -> [DomainCharacter] {
         _getCharactersNextPageCalled = true
+        print("shouldSucceed: \(shouldSucceed)")
         if shouldSucceed {
             return DomainCharacter.mockList()
         } else {

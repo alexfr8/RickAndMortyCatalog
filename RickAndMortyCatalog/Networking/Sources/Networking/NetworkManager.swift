@@ -5,11 +5,13 @@ public protocol NetworkManagerProtocol: Sendable {
 }
 
 public struct NetworkManager: NetworkManagerProtocol {
-    private let urlSession = URLSession.shared
-
+    private let urlSession: URLSession
+    
     public static let shared = NetworkManager()
-
-    public init() {}
+    
+    public init(urlSession: URLSession = .shared) {
+        self.urlSession = urlSession
+    }
 
     public func performRequest(with route: NetworkRoute) async throws -> Data {
         let request = try createRequest(from: route)

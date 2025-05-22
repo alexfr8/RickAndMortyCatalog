@@ -14,7 +14,13 @@ private struct SplashScreen: View {
     @StateObject private var viewModel: SplashScreenViewModel
 
     init(repository: RickAndMortyRepositoryProtocol) {
-        _viewModel = StateObject(wrappedValue: SplashScreenViewModel(repository: repository))
+        _viewModel = StateObject(
+            wrappedValue: SplashScreenViewModel(
+                loadInitialCharactersUseCase: LoadInitialCharactersUseCase(
+                    repository: repository
+                )
+            )
+        )
     }
 
     var body: some View {

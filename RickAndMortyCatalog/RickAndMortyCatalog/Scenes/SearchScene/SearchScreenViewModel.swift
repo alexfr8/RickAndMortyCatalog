@@ -8,10 +8,10 @@ final class SearchScreenViewModel: ObservableObject {
     @Published var shouldNavigate = false
     @Published var characters: [DomainCharacter] = []
 
-    private let repository: RickAndMortyRepositoryProtocol
+    private let searchCharactersUseCase: SearchCharactersUseCaseProtocol
 
-    init(repository: RickAndMortyRepositoryProtocol) {
-        self.repository = repository
+    init(searchCharactersUseCase: SearchCharactersUseCaseProtocol) {
+        self.searchCharactersUseCase = searchCharactersUseCase
     }
 
     func filterCharacters(searchText: String) async {
@@ -21,12 +21,8 @@ final class SearchScreenViewModel: ObservableObject {
         if searchText.count > 2 {
             do {
                 if !isLoading {
-                    let candidates = await repository.getAllCachedCharacters()
-                    characters = candidates.filter { $0.name.lowercased().contains(searchText.lowercased()) }
-                    if characters.isEmpty {
-                        isLoading = true
-                        characters = try await repository.searchCharacters(query: searchText)
-                    }
+                    let useCase = await MainActor.run { self.searchCharactersUseCase }
+                    characters = try await useCase.execute(query: searchText)
                 }
             } catch {
                 self.error = error

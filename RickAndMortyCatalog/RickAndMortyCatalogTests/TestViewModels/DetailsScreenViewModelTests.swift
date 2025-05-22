@@ -12,15 +12,12 @@ final class DetailsScreenViewModelTests: XCTestCase {
     @MainActor
     func test_getEpisodeInfo_success_setsEpisodes() async {
         // Given
-        let character = DomainCharacter.mock(
-            id: 1,
-            name: "Rick",
-            episode: ["https://rickandmortyapi.com/api/episode/1",
-                      "https://rickandmortyapi.com/api/episode/2"
-                     ]
-        )
-        let mockRepo = MockRickAndMortyRepository()
-        let viewModel = DetailsScreenViewModel(character: character, repository: mockRepo)
+        guard let character = DomainCharacter.mockList().first else {
+            XCTFail("Bad character creation")
+            return
+        }
+        let mockUseCase = MockGetEpisodesForCharacterUseCase()
+        let viewModel = DetailsScreenViewModel(character: character, getEpisodesForCharacterUseCase: mockUseCase)
 
         // When
         await viewModel.getEpisodeInfo()
@@ -28,20 +25,19 @@ final class DetailsScreenViewModelTests: XCTestCase {
         // Then
         XCTAssertEqual(viewModel.episodes.count, DomainEpisodeDetail.mockList().count)
         XCTAssertNil(viewModel.error)
-        let wasCalled = await mockRepo.wasSearchEpisodesCalled()
-        XCTAssertTrue(wasCalled)
+        XCTAssertTrue(mockUseCase.wasCalled)
     }
 
     @MainActor
     func test_getEpisodeInfo_failure_setsError() async {
         // Given
-        let character = DomainCharacter.mock(
-            id: 1,
-            name: "Rick",
-            episode: ["https://rickandmortyapi.com/api/episode/1"]
-        )
-        let mockRepo = MockRickAndMortyRepository(shouldSucceed: false)
-        let viewModel = DetailsScreenViewModel(character: character, repository: mockRepo)
+        guard let character = DomainCharacter.mockList().first else {
+            XCTFail("Bad character creation")
+            return
+        }
+        let mockUseCase = MockGetEpisodesForCharacterUseCase()
+        mockUseCase.shouldSucceed = false
+        let viewModel = DetailsScreenViewModel(character: character, getEpisodesForCharacterUseCase: mockUseCase)
 
         // When
         await viewModel.getEpisodeInfo()
@@ -49,7 +45,6 @@ final class DetailsScreenViewModelTests: XCTestCase {
         // Then
         XCTAssertTrue(viewModel.episodes.isEmpty)
         XCTAssertNotNil(viewModel.error)
-        let wasCalled = await mockRepo.wasSearchEpisodesCalled()
-        XCTAssertTrue(wasCalled)
+        XCTAssertTrue(mockUseCase.wasCalled)
     }
 }

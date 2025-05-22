@@ -7,15 +7,22 @@ final class CharactersScreenViewModel: ObservableObject {
     @Published var error: Error?
     @Published var characters: [DomainCharacter] = []
 
-    private let repository: RickAndMortyRepositoryProtocol
+    private let getAllCachedCharactersUseCase: GetAllCachedCharactersUseCaseProtocol
+    private let getCharactersNextPageUseCase: GetCharactersNextPageUseCaseProtocol
 
-    init(repository: RickAndMortyRepositoryProtocol) {
-        self.repository = repository
+    init(
+        getAllCachedCharactersUseCase: GetAllCachedCharactersUseCaseProtocol,
+        getCharactersNextPageUseCase: GetCharactersNextPageUseCaseProtocol
+    ) {
+        self.getAllCachedCharactersUseCase = getAllCachedCharactersUseCase
+        self.getCharactersNextPageUseCase = getCharactersNextPageUseCase
     }
 
     func onAppear() async {
-        characters = await repository.getAllCachedCharacters()
-        isLoading = false
+        let useCase = await MainActor.run { self.getAllCachedCharactersUseCase }
+        let characters = await useCase.execute()
+        self.characters = characters
+        self.isLoading = false
     }
 
     func loadCharacters() async {
@@ -23,7 +30,8 @@ final class CharactersScreenViewModel: ObservableObject {
 
         isLoading = true
         do {
-            let response = try await repository.getCharactersNextPage()
+            let useCase = await MainActor.run { self.getCharactersNextPageUseCase }
+            let response = try await useCase.execute()
             characters.append(contentsOf: response)
         } catch {
             self.error = error

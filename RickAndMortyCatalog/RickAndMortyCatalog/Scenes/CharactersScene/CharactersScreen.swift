@@ -13,7 +13,14 @@ private struct CharactersScreen: View {
     @StateObject private var viewModel: CharactersScreenViewModel
 
     init(repository: RickAndMortyRepositoryProtocol) {
-        _viewModel = StateObject(wrappedValue: CharactersScreenViewModel(repository: repository))
+        _viewModel = StateObject(
+            wrappedValue: CharactersScreenViewModel(
+                getAllCachedCharactersUseCase: GetAllCachedCharactersUseCase(repository: repository),
+                getCharactersNextPageUseCase: GetCharactersNextPageUseCase(
+                    repository: repository
+                )
+            )
+        )
     }
 
     var body: some View {

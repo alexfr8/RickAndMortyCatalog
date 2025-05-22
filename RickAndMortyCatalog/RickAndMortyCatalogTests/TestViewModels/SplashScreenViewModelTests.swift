@@ -12,8 +12,8 @@ final class SplashScreenViewModelTests: XCTestCase {
     @MainActor
     func test_onAppear_successfulFetch_setsShouldNavigateTrue() async {
         // Given
-        let mockRepository = MockRickAndMortyRepository()
-        sut = SplashScreenViewModel(repository: mockRepository)
+        let mockUseCase = MockLoadInitialCharactersUseCase()
+        sut = SplashScreenViewModel(loadInitialCharactersUseCase: mockUseCase)
 
         // When
         await sut.onAppear()
@@ -22,15 +22,15 @@ final class SplashScreenViewModelTests: XCTestCase {
         XCTAssertFalse(sut.isLoading)
         XCTAssertTrue(sut.shouldNavigate)
         XCTAssertNil(sut.error)
-        let wasCalled = await mockRepository.wasGetCharactersNextPageCalled()
-        XCTAssertTrue(wasCalled)
+        XCTAssertTrue(mockUseCase.wasCalled)
     }
 
     @MainActor
     func test_onAppear_failedFetch_setsError() async {
         // Given
-        let mockRepository = MockRickAndMortyRepository(shouldSucceed: false)
-        sut = SplashScreenViewModel(repository: mockRepository)
+        let mockUseCase = MockLoadInitialCharactersUseCase()
+        mockUseCase.shouldSucceed = false
+        sut = SplashScreenViewModel(loadInitialCharactersUseCase: mockUseCase)
 
         // When
         await sut.onAppear()
@@ -39,7 +39,6 @@ final class SplashScreenViewModelTests: XCTestCase {
         XCTAssertFalse(sut.isLoading)
         XCTAssertFalse(sut.shouldNavigate)
         XCTAssertNotNil(sut.error)
-        let wasCalled = await mockRepository.wasGetCharactersNextPageCalled()
-        XCTAssertTrue(wasCalled)
+        XCTAssertTrue(mockUseCase.wasCalled)
     }
 }

@@ -17,7 +17,13 @@ private struct SearchScreen: View {
     @FocusState private var isFocused: Bool?
 
     init(repository: RickAndMortyRepositoryProtocol) {
-        _viewModel = StateObject(wrappedValue: SearchScreenViewModel(repository: repository))
+        _viewModel = StateObject(
+            wrappedValue: SearchScreenViewModel(
+                searchCharactersUseCase: SearchCharactersUseCase(
+                    repository: repository
+                )
+            )
+        )
     }
 
     var body: some View {

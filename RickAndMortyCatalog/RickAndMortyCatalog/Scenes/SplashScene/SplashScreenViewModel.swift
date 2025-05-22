@@ -7,10 +7,10 @@ final class SplashScreenViewModel: ObservableObject {
     @Published var error: Error?
     @Published var shouldNavigate = false
 
-    private let repository: RickAndMortyRepositoryProtocol
+    private let loadInitialCharactersUseCase: LoadInitialCharactersUseCaseProtocol
 
-    init(repository: RickAndMortyRepositoryProtocol) {
-        self.repository = repository
+    init(loadInitialCharactersUseCase: LoadInitialCharactersUseCaseProtocol) {
+        self.loadInitialCharactersUseCase = loadInitialCharactersUseCase
     }
 
     func onAppear() async {
@@ -18,7 +18,8 @@ final class SplashScreenViewModel: ObservableObject {
             isLoading = false
         }
         do {
-            _ = try await repository.getCharactersNextPage()
+            let useCase = await MainActor.run { self.loadInitialCharactersUseCase }
+            try await useCase.execute()
             shouldNavigate = true
         } catch {
             self.error = error

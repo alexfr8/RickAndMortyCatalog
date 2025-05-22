@@ -12,8 +12,12 @@ final class CharactersScreenViewModelTests: XCTestCase {
     @MainActor
     func test_onAppear_loadsCachedCharacters() async {
         // Given
-        let mockRepo = MockRickAndMortyRepository()
-        let viewModel = CharactersScreenViewModel(repository: mockRepo)
+        let mockAllUseCase = MockGetAllCachedCharactersUseCase()
+        let mockNextPageUseCase = MockGetCharactersNextPageUseCase()
+        let viewModel = CharactersScreenViewModel(
+            getAllCachedCharactersUseCase: mockAllUseCase,
+            getCharactersNextPageUseCase: mockNextPageUseCase
+        )
 
         // When
         await viewModel.onAppear()
@@ -21,15 +25,18 @@ final class CharactersScreenViewModelTests: XCTestCase {
         // Then
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertEqual(viewModel.characters.count, DomainCharacter.mockList().count)
-        let wasCalled = await mockRepo.wasGetAllCharactersCalled()
-        XCTAssertTrue(wasCalled)
+        XCTAssertTrue(mockAllUseCase.wasCalled)
     }
 
     @MainActor
     func test_loadCharacters_success_appendsCharacters() async {
         // Given
-        let mockRepo = MockRickAndMortyRepository()
-        let viewModel = CharactersScreenViewModel(repository: mockRepo)
+        let mockAllUseCase = MockGetAllCachedCharactersUseCase()
+        let mockNextPageUseCase = MockGetCharactersNextPageUseCase()
+        let viewModel = CharactersScreenViewModel(
+            getAllCachedCharactersUseCase: mockAllUseCase,
+            getCharactersNextPageUseCase: mockNextPageUseCase
+        )
         viewModel.isLoading = false
 
         // When
@@ -39,15 +46,19 @@ final class CharactersScreenViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertEqual(viewModel.characters.count, DomainCharacter.mockList().count)
         XCTAssertNil(viewModel.error)
-        let wasCalled = await mockRepo.wasGetCharactersNextPageCalled()
-        XCTAssertTrue(wasCalled)
+        XCTAssertTrue(mockNextPageUseCase.wasCalled)
     }
 
     @MainActor
     func test_loadCharacters_failure_setsError() async {
         // Given
-        let mockRepo = MockRickAndMortyRepository(shouldSucceed: false)
-        let viewModel = CharactersScreenViewModel(repository: mockRepo)
+        let mockAllUseCase = MockGetAllCachedCharactersUseCase()
+        let mockNextPageUseCase = MockGetCharactersNextPageUseCase()
+        mockNextPageUseCase.shouldSucceed = false
+        let viewModel = CharactersScreenViewModel(
+            getAllCachedCharactersUseCase: mockAllUseCase,
+            getCharactersNextPageUseCase: mockNextPageUseCase
+        )
         viewModel.isLoading = false
 
         // When
@@ -56,15 +67,18 @@ final class CharactersScreenViewModelTests: XCTestCase {
         // Then
         XCTAssertFalse(viewModel.isLoading)
         XCTAssertNotNil(viewModel.error)
-        let wasCalled = await mockRepo.wasGetCharactersNextPageCalled()
-        XCTAssertTrue(wasCalled)
+        XCTAssertTrue(mockNextPageUseCase.wasCalled)
     }
 
     @MainActor
     func test_loadCharacters_doesNothingIfAlreadyLoading() async {
         // Given
-        let mockRepo = MockRickAndMortyRepository()
-        let viewModel = CharactersScreenViewModel(repository: mockRepo)
+        let mockAllUseCase = MockGetAllCachedCharactersUseCase()
+        let mockNextPageUseCase = MockGetCharactersNextPageUseCase()
+        let viewModel = CharactersScreenViewModel(
+            getAllCachedCharactersUseCase: mockAllUseCase,
+            getCharactersNextPageUseCase: mockNextPageUseCase
+        )
         viewModel.isLoading = true
 
         // When
@@ -73,7 +87,6 @@ final class CharactersScreenViewModelTests: XCTestCase {
         // Then
         XCTAssertTrue(viewModel.isLoading)
         XCTAssertEqual(viewModel.characters.count, 0)
-        let wasCalled = await mockRepo.wasGetCharactersNextPageCalled()
-        XCTAssertFalse(wasCalled)
+        XCTAssertFalse(mockNextPageUseCase.wasCalled)
     }
 }

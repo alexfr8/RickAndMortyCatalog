@@ -11,64 +11,52 @@ final class SearchScreenViewModelTests: XCTestCase {
 
     @MainActor
     func test_filterCharacters_searchTextTooShort_clearsSearch() async {
-        // Given
-        let mockRepo = MockRickAndMortyRepository(shouldSucceed: true)
-        sut = SearchScreenViewModel(repository: mockRepo)
+        let mockUseCase = MockSearchCharactersUseCase()
+        sut = SearchScreenViewModel(searchCharactersUseCase: mockUseCase)
         sut.characters = DomainCharacter.mockList()
 
-        // When
         await sut.filterCharacters(searchText: "ab")
 
-        // Then
         XCTAssertTrue(sut.characters.isEmpty)
+        XCTAssertFalse(mockUseCase.wasCalled)
     }
 
     @MainActor
-    func test_filterCharacters_matchesCachedCharacters_onlyUsesCache() async {
-        // Given
-        let mockRepo = MockRickAndMortyRepository()
-        sut = SearchScreenViewModel(repository: mockRepo)
+    func test_filterCharacters_matchesCharacters_callsUseCase() async {
+        let mockUseCase = MockSearchCharactersUseCase()
+        mockUseCase.result = .success([DomainCharacter.mock(id: 1, name: "Character 1")])
+        sut = SearchScreenViewModel(searchCharactersUseCase: mockUseCase)
 
-        // When
         await sut.filterCharacters(searchText: "Character 1")
 
-        // Then
         XCTAssertEqual(sut.characters.count, 1)
-        XCTAssertEqual(sut.characters.first?.name.lowercased(), "Character 1".lowercased())
+        XCTAssertEqual(sut.characters.first?.name.lowercased(), "character 1")
         XCTAssertFalse(sut.isLoading)
-        let wasAllCharacterCalled = await mockRepo.wasGetAllCharactersCalled()
-        XCTAssertTrue(wasAllCharacterCalled)
-        let wasAllCharacterCalledWithoutSearchText = await mockRepo.wasSearchAllCharactersCalled()
-        XCTAssertFalse(wasAllCharacterCalledWithoutSearchText)
+        XCTAssertTrue(mockUseCase.wasCalled)
     }
 
     @MainActor
-    func test_filterCharacters_noCacheMatch_usesRemoteSearch() async {
-        // Given
-        let mockRepo = MockRickAndMortyRepository()
-        sut = SearchScreenViewModel(repository: mockRepo)
+    func test_filterCharacters_noCacheMatch_usesUseCase() async {
+        let mockUseCase = MockSearchCharactersUseCase()
+        mockUseCase.result = .success(DomainCharacter.mockList())
+        sut = SearchScreenViewModel(searchCharactersUseCase: mockUseCase)
 
-        // When
         await sut.filterCharacters(searchText: "summer")
 
-        // Then
         XCTAssertEqual(sut.characters.count, DomainCharacter.mockList().count)
-        let wasSearchAllCharactersCalled = await mockRepo.wasSearchAllCharactersCalled()
-        XCTAssertTrue(wasSearchAllCharactersCalled)
+        XCTAssertTrue(mockUseCase.wasCalled)
     }
 
     @MainActor
     func test_filterCharacters_remoteSearchFails_doesNotCrash() async {
-        // Given
-        let mockRepo = MockRickAndMortyRepository(shouldSucceed: false)
-        sut = SearchScreenViewModel(repository: mockRepo)
+        let mockUseCase = MockSearchCharactersUseCase()
+        mockUseCase.result = .failure(NSError(domain: "Test", code: 1, userInfo: nil))
+        sut = SearchScreenViewModel(searchCharactersUseCase: mockUseCase)
 
-        // When
         await sut.filterCharacters(searchText: "morty")
 
-        // Then
         XCTAssertTrue(sut.characters.isEmpty)
-        let wasSearchAllCharactersCalled = await mockRepo.wasSearchAllCharactersCalled()
-        XCTAssertTrue(wasSearchAllCharactersCalled)
+        XCTAssertNotNil(sut.error)
+        XCTAssertTrue(mockUseCase.wasCalled)
     }
 }
